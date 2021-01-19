@@ -80,7 +80,7 @@ $messageForm.addEventListener('submit', (e) => {
         $messageFormInput.value = '';
         $messageFormInput.focus();
         if(error){
-            return console.log(error);
+            return console.error(error);
         }
 
         console.log('Message delivered!');
@@ -101,7 +101,6 @@ $sendLocationButton.addEventListener('click', () => {
         } 
         socket.emit('sendLocation', position, (msg) => {
             $sendLocationButton.removeAttribute('disabled');
-            console.log(msg);
         })
     })
 });
