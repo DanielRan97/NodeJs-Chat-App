@@ -162,11 +162,13 @@ button:disabled {
 
 /* Chat Sidebar Styles */
 
-.room-title {
-    font-weight: 400;
-    font-size: 22px;
+.room-title{
     background: #2c2f3a;
     padding: 24px;   
+}
+
+.room-title a {
+color: grey;
 }
 
 .list-title {
@@ -180,4 +182,8 @@ button:disabled {
     list-style-type: none;
     font-weight: 300;
     padding: 12px 24px 0 24px;
+}
+
+.logout-link{
+    margin-top: 5px;
 }
