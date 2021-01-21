@@ -18,20 +18,32 @@
 
             <form action="/chat.html">
                 <label>Display name
-                <input type="text" name="username" placeholder="Display name" required>
+                <input type="text" name="username" placeholder="Display name" required maxlength="10">
                 </label>
 
                 <label>Room
-                <input type="text" name="room" placeholder="Room" required>
+                <input id="joinToRoomInput" type="text" name="room" placeholder="Room" required maxlength="10">
                 </label>
                 
                 <button>Join</button>
             </form>
         </div>
     
+        <div id="roomslist">
+            <button type="button" id="showRoomsButton">Show Rooms</button>
+            <div class="roomsArry">
+               <ul id="roomListUl">
+    
+               </ul>
+            </div>
     </div>
 
 
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/index.js"></script>
 </body>
 
 </html>

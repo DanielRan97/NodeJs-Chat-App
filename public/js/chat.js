@@ -23,7 +23,6 @@ const autoscroll = () => {
     const newMessageStyle = getComputedStyle($newMessage);
     const newMessageMargin = parseInt(newMessageStyle.marginBottom);
     const newMessageHeight = $newMessage.offsetHeight + newMessageMargin ;
-    console.log(newMessageMargin);
 
     //Visible height
     const visibleHeight = $messages.offsetHeight;
@@ -83,7 +82,6 @@ $messageForm.addEventListener('submit', (e) => {
             return console.error(error);
         }
 
-        console.log('Message delivered!');
     });
     
 });

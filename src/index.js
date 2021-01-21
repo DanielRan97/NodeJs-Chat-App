@@ -5,7 +5,8 @@ const socketio = require('socket.io');
 const chalk = require('chalk');
 const Filter = require('bad-words')
 const {generateLocationMessage, generateMessage } = require('./utils/messages');
-const { addUser, removeUser, getUser, getUserInRoom } = require('./utils/users');
+const { addUser, removeUser, getUser, getUserInRoom, users } = require('./utils/users');
+const {returnRooms, addRoom, removeRoom} = require('./utils/rooms');
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -28,6 +29,7 @@ io.on('connection', (socket) => {
 
         socket.join(user.room);
 
+       
     socket.emit('message', generateMessage(`${user.room}-room`,`Welcome to the chat ${user.username}`));
 
     socket.broadcast.to(user.room).emit('message', generateMessage(`${user.room}-room`,`${user.username} has joined`));
@@ -35,6 +37,11 @@ io.on('connection', (socket) => {
         room: user.room,
         users: getUserInRoom(user.room)
     })
+    addRoom(user.room);
+    io.emit('sendRooms', {
+        rooms: returnRooms()
+    });
+
     callback();
 
     });
@@ -55,20 +62,29 @@ io.on('connection', (socket) => {
         io.to(user.room).emit('locationMessage',generateLocationMessage(user.username,`https://www.google.com/maps?q=${location.lat},${location.long}`));
         callback('Location shared');
     });
-   
+
+    socket.on('getRooms', () => {
+        io.emit('sendRooms', {
+            rooms: returnRooms()
+        }
+        )}
+       );
+
     socket.on('disconnect', () => {
       const user = removeUser(socket.id);
-
       if(user){
-
+        
+        removeRoom(user.room);
         io.to(user.room).emit('message', generateMessage(`${user.room}-room`,`${user.username} has left`));
         io.to(user.room).emit('roomData', {
             room: user.room,
             users: getUserInRoom(user.room)
         })
       }
-
     });
+    io.emit('sendRooms', {
+        rooms: returnRooms()
+    })
 });
 
 server.listen(port, () => {
